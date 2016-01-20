@@ -1,4 +1,222 @@
+"**************************************
+" Plugins (Vundle)
+"**************************************
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" End certain structures automatically
+" (end after if, do, def etc.)
+" Plugin 'tpope/vim-endwise'
+
+" Seamless tmux navigation
+Bundle 'christoomey/vim-tmux-navigator'
+
+" Fuzzy search
+Plugin 'kien/ctrlp.vim'
+
+Plugin 'rking/ag.vim'
+
+" Close brackets, quotes etc. automatically
+Plugin 'Raimondi/delimitMate.git'
+
+" Change text surroundings (cs [char])
+Plugin 'tpope/vim-surround'
+
+Plugin 'bling/vim-airline'
+
+" Multiple cursors
+Plugin 'terryma/vim-multiple-cursors.git'
+
+" Change the current directory to the project's root folder
+Plugin 'airblade/vim-rooter.git'
+
+" Color Scheme
+Plugin 'trusktr/seti.vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+Plugin 'yosiat/oceanic-next-vim'
+
+" Syntax
+Plugin 'othree/html5.vim'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'captbaritone/better-indent-support-for-php-with-html'
+Plugin 'tpope/vim-markdown'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+
+"Writing
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'junegunn/goyo.vim'  
+Plugin 'junegunn/limelight.vim'  
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"**************************************
+" Editor
+"**************************************
+
+set encoding=utf-8
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" Don't search for files in build folder (ctrlp)
+set wildignore+=*/build/**
+
+" Detect filetype
+filetype plugin on
 syntax on
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+" Set relevant filetypes
+"  au BufRead,BufNewFile *.scss set filetype=css
+au BufRead,BufNewFile *.md set filetype=markdown
+
+set backspace=indent,eol,start
+
+" Make ctrlp use silver searcher
+let g:ctrlp_use_caching = 0
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+  let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+    \ }
+endif
+
+" Tabs, indentation and lines
+" Auto indent
+filetype indent on
+set autoindent
+set cindent
+
+" Spaces
+set expandtab
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+" Round indent to nearest multiple of 4
+set shiftround
+" No line-wrapping
+set nowrap
+
+" JSX in .js files
+let g:jsx_ext_required = 0
+
+"**************************************
+" Make it look nice
+"**************************************
+
+" Color scheme
+set background=dark
+set t_Co=256
+let g:molokai_original = 0
+let g:solarized_termcolors = 16
+let g:rehash256 = 0
+colorscheme molokai
+
+" Typography
+if has('gui_running')
+  set guifont=Source\ Code\ Pro:h13
+endif
+
+" Always show the status line
+set laststatus=2
+
+" tpope's statusline
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%y%=%-16(\ %l,%c-%v\ %)%P
+
+" Show what mode you’re currently in
+set showmode
+" Show what commands you’re typing
+set showcmd
+" Allow modelines
+set modeline
+" Show current line and column position in file
+set ruler
+" Show file title in terminal tab
+set title
+" Show line numbers
+set number
+
+" Limit line-length to 80 columns by highlighting col 81 onward
+if exists("+colorcolumn")
+    set colorcolumn=81
+endif
+" Highlight current line
+set cursorline
+" Don’t keep results highlighted after searching...
+set nohlsearch
+" ...just highlight as we type
+set incsearch
+" Ignore case when searching...
+set ignorecase
+" ...except if we input a capital letter
+set smartcase
+
+"**************************************
+" Key Mappings
+"**************************************
+" set map leader key
+let mapleader = ","
+
+" Make it so that a curly brace automatically inserts an indented line
+inoremap {<CR> {<CR>}<C-o>O
+
+" Pressing ctrl+enter between braces will create newline + indent
+imap <C-Return> <CR><CR><C-o>k<Tab>
+
+" Build using Gradle 
+map <Leader>b :w<CR> :!gradle run<CR>
+
+" nmap <Leader>mk :SCCompile<CR>
+nmap <Leader>run :SCCompileRun<CR>
+
+" Delete file and buffer
+nnoremap <Leader>rm :call delete(expand('%')) \| bdelete!<CR>
+
+" Change pwd to current file's directory
+" nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+
+" Compile java class 
+nnoremap <Leader>javac :!javac %<CR>
+
+" Run java class 
+nnoremap <Leader>java :!java %:r<CR>
+
+" Toggle background color
+map <expr> <Leader>bg ToggleBackgroundColor()
+
+func! ToggleBackgroundColor() 
+    if (&l:background == "light")
+        set background=dark
+    else
+        set background=light
+    endif
+endfunc
+
+" jj to throw you into normal mode from insert mode
+inoremap jj <esc>
+
+" Disable arrow keys 
+map  <up>    <nop>
+imap <up>    <nop>
+map  <down>  <nop>
+imap <down>  <nop>
+map  <left>  <nop>
+imap <left>  <nop>
+map  <right> <nop>
+imap <right> <nop>
