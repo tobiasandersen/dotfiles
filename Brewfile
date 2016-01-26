@@ -15,7 +15,3 @@ brew 'postgresql'
 brew 'unrar'
 brew 'wget'
 brew 'youtube-dl'
-
-cask '1password'
-cask 'google-chrome'
-cask 'slack'
