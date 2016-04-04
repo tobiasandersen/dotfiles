@@ -41,7 +41,8 @@ Plugin 'airblade/vim-rooter.git'
 Plugin 'trusktr/seti.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
-Plugin 'yosiat/oceanic-next-vim'
+Plugin 'mhartington/oceanic-next'
+Plugin 'ajh17/Spacegray.vim'
 
 " Syntax
 Plugin 'othree/html5.vim'
@@ -53,11 +54,13 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'captbaritone/better-indent-support-for-php-with-html'
-Plugin 'tpope/vim-markdown'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 "Writing
 Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'beloglazov/vim-online-thesaurus'
 Plugin 'junegunn/goyo.vim'  
 Plugin 'junegunn/limelight.vim'  
 
@@ -68,6 +71,12 @@ filetype plugin indent on    " required
 "**************************************
 " Editor
 "**************************************
+
+" Neovim Settings
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let $NEOVIM_JS_DEBUG='nvimjs.log'
+"set clipboard+=unnamedplus
 
 set encoding=utf-8
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -181,6 +190,10 @@ inoremap {<CR> {<CR>}<C-o>O
 
 " Pressing ctrl+enter between braces will create newline + indent
 imap <C-Return> <CR><CR><C-o>k<Tab>
+
+" Change Thesaurus key mapping
+let g:online_thesaurus_map_keys = 0
+nnoremap <Leader>t :OnlineThesaurusCurrentWord<CR>
 
 " Build using Gradle 
 map <Leader>b :w<CR> :!gradle run<CR>
