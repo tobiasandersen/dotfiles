@@ -133,12 +133,12 @@ let g:jsx_ext_required = 0
 "**************************************
 
 " Color scheme
-set background=dark
 set t_Co=256
 let g:molokai_original = 0
 let g:solarized_termcolors = 16
 let g:rehash256 = 0
-colorscheme molokai
+colorscheme OceanicNext
+set background=dark
 
 " Typography
 if has('gui_running')
