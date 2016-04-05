@@ -1,6 +1,5 @@
-"**************************************
-" Plugins (Vundle)
-"**************************************
+" Setup Vundle ----------------------------------------------------------{{{
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -19,8 +18,9 @@ Plugin 'gmarik/Vundle.vim'
 Bundle 'christoomey/vim-tmux-navigator'
 
 " Fuzzy search
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 
+" Fast serach using Silver Searcher
 Plugin 'rking/ag.vim'
 
 " Close brackets, quotes etc. automatically
@@ -29,6 +29,12 @@ Plugin 'Raimondi/delimitMate.git'
 " Change text surroundings (cs [char])
 Plugin 'tpope/vim-surround'
 
+" NERDTree file explorer
+Plugin 'scrooloose/nerdtree'
+" Show git status flags in NERDTree
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+" Awesome status bar
 Plugin 'bling/vim-airline'
 
 " Multiple cursors
@@ -41,8 +47,8 @@ Plugin 'airblade/vim-rooter.git'
 Plugin 'trusktr/seti.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
-Plugin 'mhartington/oceanic-next'
 Plugin 'ajh17/Spacegray.vim'
+Plugin 'mhartington/oceanic-next'
 
 " Syntax
 Plugin 'othree/html5.vim'
@@ -55,22 +61,49 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'captbaritone/better-indent-support-for-php-with-html'
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+Plugin 'tpope/vim-markdown'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 "Writing
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'beloglazov/vim-online-thesaurus'
 Plugin 'junegunn/goyo.vim'  
-Plugin 'junegunn/limelight.vim'  
+Plugin 'junegunn/limelight.vim'
+Plugin 'reedes/vim-wordy'
+
+" Icons
+Plugin 'ryanoasis/vim-devicons'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-"**************************************
-" Editor
-"**************************************
+"}}}
+
+" System Settings ----------------------------------------------------------{{{
+
+set encoding=utf-8
+
+" Detect filetype
+filetype plugin on
+
+" CtrlP
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+" Don't search for files in build folder
+set wildignore+=*/build/**
+
+" Make ctrlp use silver searcher
+let g:ctrlp_use_caching = 0
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+  let g:ctrlp_prompt_mappings = {
+        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+        \ }
+endif
 
 " Neovim Settings
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -78,34 +111,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 let $NEOVIM_JS_DEBUG='nvimjs.log'
 "set clipboard+=unnamedplus
 
-set encoding=utf-8
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-" Don't search for files in build folder (ctrlp)
-set wildignore+=*/build/**
-
-" Detect filetype
-filetype plugin on
-syntax on
-
 " Set relevant filetypes
-"  au BufRead,BufNewFile *.scss set filetype=css
+au BufRead,BufNewFile *.scss set filetype=css
 au BufRead,BufNewFile *.md set filetype=markdown
 
 set backspace=indent,eol,start
-
-" Make ctrlp use silver searcher
-let g:ctrlp_use_caching = 0
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor
-
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-else
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-  let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
-    \ }
-endif
 
 " Tabs, indentation and lines
 " Auto indent
@@ -114,9 +124,7 @@ set autoindent
 set cindent
 
 " Use spaces for indentation
-set expandtab
-set shiftwidth=2
-set tabstop=2
+set tabstop=2 shiftwidth=2 expandtab
 set softtabstop=2
 
 " Round indent to nearest multiple of 4
@@ -128,35 +136,24 @@ set nowrap
 " JSX in .js files
 let g:jsx_ext_required = 0
 
-"**************************************
-" Make it look nice
-"**************************************
+"}}}
+
+" Theming ----------------------------------------------------------{{{
 
 " Color scheme
-set t_Co=256
-let g:molokai_original = 0
-let g:solarized_termcolors = 16
-let g:rehash256 = 0
+syntax enable
 colorscheme OceanicNext
 set background=dark
 
-" Typography
-if has('gui_running')
-  set guifont=Source\ Code\ Pro:h13
-endif
+" Let airline take care of the status line
+set noshowmode
+set noswapfile
+set conceallevel=0
 
 " Always show the status line
 set laststatus=2
-
-" tpope's statusline
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%y%=%-16(\ %l,%c-%v\ %)%P
-
-" Show what mode you’re currently in
-set showmode
 " Show what commands you’re typing
 set showcmd
-" Allow modelines
-set modeline
 " Show current line and column position in file
 set ruler
 " Show file title in terminal tab
@@ -164,12 +161,23 @@ set title
 " Show line numbers
 set number
 
+" no need to fold things in markdown all the time
+let g:vim_markdown_folding_disabled = 1
+" turn on spelling for markdown files
+autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
+" highlight bad words in red
+autocmd BufRead,BufNewFile *.md hi SpellBad guibg=#ff2929 guifg=#ffffff" ctermbg=224
+" disable markdown auto-preview. Gets annoying
+let g:instant_markdown_autostart = 0
+
 " Limit line-length to 80 columns by highlighting col 81 onward
 if exists("+colorcolumn")
-    set colorcolumn=81
+  set colorcolumn=81
 endif
+
 " Highlight current line
 set cursorline
+
 " Don’t keep results highlighted after searching...
 set nohlsearch
 " ...just highlight as we type
@@ -179,9 +187,68 @@ set ignorecase
 " ...except if we input a capital letter
 set smartcase
 
-"**************************************
-" Key Mappings
-"**************************************
+"}}}
+
+" vim-airline ---------------------------------------------------------------{{{
+let g:airline#extensions#tabline#enabled = 1
+set hidden
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='oceanicnext'
+cnoreabbrev <expr> x getcmdtype() == ":" && getcmdline() == 'x' ? 'Sayonara' : 'x'
+nmap <leader>t :term<cr>
+nmap <leader>, :bnext<CR>
+nmap <leader>. :bprevious<CR>
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+"}}}
+
+" NERDTree ------------------------------------------------------------------{{{
+nnoremap <C-g> :NERDTreeToggle<CR>
+autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let NERDTreeShowHidden=1
+let g:NERDTreeWinSize=45
+let g:NERDTreeAutoDeleteBuffer=1
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#141e23')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#141e23')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#141e23')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#141e23')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#141e23')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#141e23')
+call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', '#141e23')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#141e23')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
+
+"}}}
+
+" Key Mappings ----------------------------------------------------------{{{
+
 " set map leader key
 let mapleader = ","
 
@@ -217,11 +284,11 @@ nnoremap <Leader>java :!java %:r<CR>
 map <expr> <Leader>bg ToggleBackgroundColor()
 
 func! ToggleBackgroundColor() 
-    if (&l:background == "light")
-        set background=dark
-    else
-        set background=light
-    endif
+  if (&l:background == "light")
+    set background=dark
+  else
+    set background=light
+  endif
 endfunc
 
 " jj to throw you into normal mode from insert mode
@@ -236,3 +303,5 @@ map  <left>  <nop>
 imap <left>  <nop>
 map  <right> <nop>
 imap <right> <nop>
+
+"}}}
