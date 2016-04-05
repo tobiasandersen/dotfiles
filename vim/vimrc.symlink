@@ -64,6 +64,9 @@ Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-markdown'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 
+" Linting
+Plugin 'benekastah/neomake'
+
 "Writing
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'beloglazov/vim-online-thesaurus'
@@ -82,7 +85,9 @@ filetype plugin indent on    " required
 
 " System Settings ----------------------------------------------------------{{{
 
-set encoding=utf-8
+if !has('nvim')
+  set encoding=utf-8
+endif
 
 " Detect filetype
 filetype plugin on
@@ -303,5 +308,23 @@ map  <left>  <nop>
 imap <left>  <nop>
 map  <right> <nop>
 imap <right> <nop>
+
+"}}}
+
+" Linting -------------------------------------------------------------------{{{
+let g:neomake_javascript_jscs_maker = {
+    \ 'exe': 'jscs',
+    \ 'args': ['--no-color', '--preset', 'airbnb', '--reporter', 'inline', '--esnext'],
+    \ 'errorformat': '%f: line %l\, col %c\, %m',
+    \ }
+
+" Use ESLint
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+" Open a Neomake window if it finds an error
+let g:neomake_open_list = 2
+
+" Run Neomake automatically on file enter or save
+autocmd! BufWritePost * Neomake
 
 "}}}
