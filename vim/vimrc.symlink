@@ -55,6 +55,7 @@ Plugin 'othree/html5.vim'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'othree/yajs.vim'
 Plugin 'helino/vim-json'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'mustache/vim-mustache-handlebars'
@@ -63,6 +64,7 @@ Plugin 'captbaritone/better-indent-support-for-php-with-html'
 Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-markdown'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'vim-scripts/hexHighlight.vim'
 
 " Linting
 Plugin 'benekastah/neomake'
@@ -257,6 +259,9 @@ call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
 " set map leader key
 let mapleader = ","
 
+" jj to throw you into normal mode from insert mode
+inoremap jj <esc>
+
 " Make it so that a curly brace automatically inserts an indented line
 inoremap {<CR> {<CR>}<C-o>O
 
@@ -296,8 +301,19 @@ func! ToggleBackgroundColor()
   endif
 endfunc
 
-" jj to throw you into normal mode from insert mode
-inoremap jj <esc>
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-S> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+" Toggle hex color highlighting using hexHiglight plugin
+if exists('*HexHighlight()')
+  nmap <leader>h :call HexHighlight()<Return>
+endif
 
 " Disable arrow keys 
 map  <up>    <nop>
