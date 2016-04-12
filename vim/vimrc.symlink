@@ -53,6 +53,7 @@ Plugin 'tobiasandersen/oceanic-next'
 " Syntax
 Plugin 'othree/html5.vim'
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'hail2u/vim-css3-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'tobiasandersen/vim-jsx'
 Plugin 'othree/yajs.vim'
