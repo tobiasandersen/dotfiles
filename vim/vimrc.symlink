@@ -316,16 +316,6 @@ if exists('*HexHighlight()')
   nmap <leader>h :call HexHighlight()<Return>
 endif
 
-" Disable arrow keys 
-map  <up>    <nop>
-imap <up>    <nop>
-map  <down>  <nop>
-imap <down>  <nop>
-map  <left>  <nop>
-imap <left>  <nop>
-map  <right> <nop>
-imap <right> <nop>
-
 "}}}
 
 " Linting -------------------------------------------------------------------{{{
