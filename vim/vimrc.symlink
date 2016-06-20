@@ -66,9 +66,14 @@ Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-markdown'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 
-
 " Linting
 Plugin 'benekastah/neomake'
+
+" Autocomplete
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+Plugin 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
 "Writing
 Plugin 'vim-pandoc/vim-pandoc'
@@ -94,6 +99,21 @@ endif
 
 " Detect filetype
 filetype plugin on
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+set completeopt+=noinsert
+
+let g:deoplete#ignore_sources = get(g:,'deoplete#ignore_sources',{})
+let g:deoplete#ignore_sources.javascript = ['tag']
+
+" Disable deoplete when using multiple cursors
+function g:Multiple_cursors_before()
+  let g:deoplete#disable_auto_complete = 1
+endfunction
+function g:Multiple_cursors_after()
+  let g:deoplete#disable_auto_complete = 0
+endfunction
 
 " CtrlP
 set runtimepath^=~/.vim/bundle/ctrlp.vim
