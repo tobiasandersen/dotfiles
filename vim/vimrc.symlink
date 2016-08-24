@@ -18,7 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 Bundle 'christoomey/vim-tmux-navigator'
 
 " Fuzzy search
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " Fast serach using Silver Searcher
 Plugin 'rking/ag.vim'
@@ -31,6 +31,7 @@ Plugin 'tpope/vim-surround'
 
 " NERDTree file explorer
 Plugin 'scrooloose/nerdtree'
+
 " Show git status flags in NERDTree
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
@@ -44,10 +45,6 @@ Plugin 'terryma/vim-multiple-cursors.git'
 Plugin 'airblade/vim-rooter.git'
 
 " Color Scheme
-Plugin 'trusktr/seti.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'ajh17/Spacegray.vim'
 Plugin 'tobiasandersen/oceanic-next'
 
 " Syntax
@@ -78,12 +75,12 @@ Plugin 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 "Writing
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'beloglazov/vim-online-thesaurus'
-Plugin 'junegunn/goyo.vim'  
+Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'reedes/vim-wordy'
 
 " Icons
-Plugin 'ryanoasis/vim-devicons'
+" Plugin 'ryanoasis/vim-devicons'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -106,32 +103,6 @@ set completeopt+=noinsert
 
 let g:deoplete#ignore_sources = get(g:,'deoplete#ignore_sources',{})
 let g:deoplete#ignore_sources.javascript = ['tag']
-
-" Disable deoplete when using multiple cursors
-function g:Multiple_cursors_before()
-  let g:deoplete#disable_auto_complete = 1
-endfunction
-function g:Multiple_cursors_after()
-  let g:deoplete#disable_auto_complete = 0
-endfunction
-
-" CtrlP
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-" Don't search for files in build folder
-set wildignore+=*/build/**
-
-" Make ctrlp use silver searcher
-let g:ctrlp_use_caching = 0
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-else
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-  let g:ctrlp_prompt_mappings = {
-        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
-        \ }
-endif
 
 " Neovim Settings
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -157,6 +128,15 @@ set softtabstop=2
 
 " Round indent to nearest multiple of 4
 set shiftround
+
+" Strip trailing white space on save
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " No line-wrapping
 set nowrap
@@ -218,10 +198,7 @@ set smartcase
 "}}}
 
 " vim-airline ---------------------------------------------------------------{{{
-let g:airline#extensions#tabline#enabled = 1
 set hidden
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='oceanicnext'
 cnoreabbrev <expr> x getcmdtype() == ":" && getcmdline() == 'x' ? 'Sayonara' : 'x'
@@ -283,6 +260,8 @@ let mapleader = ","
 " jj to throw you into normal mode from insert mode
 inoremap jj <esc>
 
+nnoremap <silent> <C-p> :FZF<CR>
+
 " Make it so that a curly brace automatically inserts an indented line
 inoremap {<CR> {<CR>}<C-o>O
 
@@ -293,7 +272,7 @@ imap <C-Return> <CR><CR><C-o>k<Tab>
 let g:online_thesaurus_map_keys = 0
 nnoremap <Leader>t :OnlineThesaurusCurrentWord<CR>
 
-" Build using Gradle 
+" Build using Gradle
 map <Leader>b :w<CR> :!gradle run<CR>
 
 " nmap <Leader>mk :SCCompile<CR>
@@ -305,16 +284,16 @@ nnoremap <Leader>rm :call delete(expand('%')) \| bdelete!<CR>
 " Change pwd to current file's directory
 " nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
 
-" Compile java class 
+" Compile java class
 nnoremap <Leader>javac :!javac %<CR>
 
-" Run java class 
+" Run java class
 nnoremap <Leader>java :!java %:r<CR>
 
 " Toggle background color
 map <expr> <Leader>bg ToggleBackgroundColor()
 
-func! ToggleBackgroundColor() 
+func! ToggleBackgroundColor()
   if (&l:background == "light")
     set background=dark
   else
@@ -339,19 +318,14 @@ endif
 "}}}
 
 " Linting -------------------------------------------------------------------{{{
-let g:neomake_javascript_jscs_maker = {
-    \ 'exe': 'jscs',
-    \ 'args': ['--no-color', '--preset', 'airbnb', '--reporter', 'inline', '--esnext'],
-    \ 'errorformat': '%f: line %l\, col %c\, %m',
-    \ }
+" Run Neomake automatically on file enter or save
+" autocmd! BufWritePost * Neomake
 
-" Use ESLint
-let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_jsx_enabled_makers = ['eslint']
+
 
 " Open a Neomake window if it finds an error
-let g:neomake_open_list = 2
-
-" Run Neomake automatically on file enter or save
-autocmd! BufWritePost * Neomake
+" let g:neomake_open_list = 0
 
 "}}}
