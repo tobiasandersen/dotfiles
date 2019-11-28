@@ -1,5 +1,0 @@
-selectp -t 0 # select the first pane
-splitw -h -p 55 # split it into two halves
-selectp -t 0 # select the first pane
-splitw -v -p 70 # split the first window vertically
-selectp -t 0 # select the first pane

@@ -5,7 +5,7 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call vundle#begin('~/.config/nvim/bundle')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
@@ -30,10 +30,10 @@ Plugin 'Raimondi/delimitMate.git'
 Plugin 'tpope/vim-surround'
 
 " NERDTree file explorer
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
 
 " Show git status flags in NERDTree
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Awesome status bar
 Plugin 'bling/vim-airline'
@@ -221,37 +221,37 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 "}}}
 
 " NERDTree ------------------------------------------------------------------{{{
-nnoremap <C-g> :NERDTreeToggle<CR>
-autocmd StdinReadPre * let s:std_in=1
+" nnoremap <C-g> :NERDTreeToggle<CR>
+" autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let NERDTreeShowHidden=1
-let g:NERDTreeWinSize=45
-let g:NERDTreeAutoDeleteBuffer=1
-
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#141e23')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#141e23')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#141e23')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#141e23')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#141e23')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#141e23')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#141e23')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#141e23')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#141e23')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#141e23')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#141e23')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#141e23')
-call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', '#141e23')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#141e23')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#141e23')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#141e23')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#141e23')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#141e23')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
+" let NERDTreeShowHidden=1
+" let g:NERDTreeWinSize=45
+" let g:NERDTreeAutoDeleteBuffer=1
+"
+" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+" exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+" exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+" endfunction
+"
+" call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#141e23')
+" call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#141e23')
+" call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#141e23')
+" call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#141e23')
+" call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#141e23')
+" call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#141e23')
+" call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#141e23')
+" call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#141e23')
+" call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#141e23')
+" call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#141e23')
+" call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#141e23')
+" call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#141e23')
+" call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', '#141e23')
+" call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#141e23')
+" call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#141e23')
+" call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#141e23')
+" call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#141e23')
+" call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#141e23')
+" call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
 
 "}}}
 
