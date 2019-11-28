@@ -1,7 +1,9 @@
 cask_args appdir: '/Applications'
 
 tap 'homebrew/bundle'
+tap 'homebrew/cask'
 
+brew 'neovim'
 brew 'coreutils'
 brew 'imagemagick'
 brew 'jp2a'
@@ -13,4 +15,34 @@ brew 'wget'
 brew 'zsh'
 brew 'zsh-completions'
 brew 'hub'
-brew cask install caprine
+brew 'yarn'
+
+cask '1password'
+cask 'google-chrome'
+cask 'google-backup-and-sync'
+cask 'iterm2'
+cask 'spotify'
+cask 'notion'
+cask 'slack'
+cask 'vlc'
+cask 'caprine'
+cask 'docker'
+cask 'alfred'
+cask 'teamviewer'
+cask 'kap'
+cask 'pixelsnap'
+cask 'sip'
+cask 'pock'
+cask 'moom'
+cask 'adobe-creative-cloud'
+
+# nxt
+brew 'pkg-config'
+brew 'cairo'
+brew 'libpng'
+brew 'jpeg'
+brew 'giflib'
+brew 'exiftool'
+
+tap 'varenc/ffmpeg'
+brew 'varenc/ffmpeg/ffmpeg', args: ['with-webp']

@@ -3,6 +3,9 @@
     "tap": {
       "homebrew/bundle": {
         "revision": "923aabce8c1dc8f1839b88380ba5f3b8b2054dd3"
+      },
+      "varenc/ffmpeg": {
+        "revision": "071670b8408ebec476e23eecc9eb28838bba9078"
       }
     },
     "brew": {
@@ -173,6 +176,13 @@
       "zsh-completions": {
         "version": "0.31.0",
         "bottle": false
+      },
+      "varenc/ffmpeg/ffmpeg": {
+        "options": {
+          "args": [
+            "with-webp"
+          ]
+        }
       }
     }
   },
