@@ -1,0 +1,275 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+call plug#begin('~/.local/share/nvim/plugged')
+
+" End certain structures automatically
+" (end after if, do, def etc.)
+Plug 'tpope/vim-endwise'
+
+" Fuzzy search
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" Fast serach using Silver Searcher
+Plug 'rking/ag.vim'
+
+" Close brackets, quotes etc. automatically
+Plug 'Raimondi/delimitMate'
+
+" Change text surroundings (cs [char])
+Plug 'tpope/vim-surround'
+
+" NERDTree file explorer
+Plug 'scrooloose/nerdtree'
+
+" Show git status flags in NERDTree
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Awesome status bar
+Plug 'bling/vim-airline'
+
+" Multiple cursors
+Plug 'terryma/vim-multiple-cursors'
+
+" Change the current directory to the project's root folder
+Plug 'airblade/vim-rooter'
+
+" Color Scheme
+Plug 'mhartington/oceanic-next'
+
+" Syntax
+Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'othree/yajs'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-markdown'
+
+"Writing
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'beloglazov/vim-online-thesaurus'
+" Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/limelight.vim'
+" Plug 'reedes/vim-wordy'
+
+" Icons
+Plug 'ryanoasis/vim-devicons'
+
+" All of your Plugins must be added before the following line
+call plug#end()
+
+filetype plugin indent on    " required
+
+"}}}
+
+" System Settings ----------------------------------------------------------{{{
+
+if !has('nvim')
+  set encoding=utf-8
+endif
+
+" Detect filetype
+filetype plugin on
+
+" Neovim Settings
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let $NEOVIM_JS_DEBUG='nvimjs.log'
+
+" Or if you have Neovim >= 0.1.5
+if (has("termguicolors"))
+ set termguicolors
+endif
+
+set clipboard+=unnamedplus
+
+" Set relevant filetypes
+au BufRead,BufNewFile *.scss set filetype=css
+au BufRead,BufNewFile *.md set filetype=markdown
+
+set backspace=indent,eol,start
+
+" Tabs, indentation and lines
+" Auto indent
+filetype indent on
+set autoindent
+set cindent
+
+" Use spaces for indentation
+set tabstop=2 shiftwidth=2 expandtab
+set softtabstop=2
+set nolist
+
+" Round indent to nearest multiple of 4
+set shiftround
+
+" Strip trailing white space on save
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" No line-wrapping
+set nowrap
+set wrapmargin=0
+set nolinebreak
+
+" JSX in .js files
+let g:jsx_ext_required = 0
+
+"}}}
+
+" Theming ----------------------------------------------------------{{{
+
+" Color scheme
+syntax enable
+colorscheme OceanicNext
+set background=dark
+
+" Let airline take care of the status line
+set noshowmode
+set noswapfile
+set conceallevel=0
+
+" Always show the status line
+set laststatus=2
+" Show what commands you’re typing
+set showcmd
+" Show current line and column position in file
+set ruler
+" Show file title in terminal tab
+set title
+" Show line numbers
+set number
+
+" Turn off statusbar, because it is externalized
+set noshowmode
+set noruler
+set laststatus=0
+set noshowcmd
+
+" Enable GUI mouse behavior
+set mouse=a
+
+set list
+set listchars = "eol:$"
+
+" no need to fold things in markdown all the time
+" let g:vim_markdown_folding_disabled = 1
+" turn on spelling for markdown files
+" autocmd BufRead,BufNewFile *.md setlocal spell complete+=kspell
+" highlight bad words in red
+" autocmd BufRead,BufNewFile *.md hi SpellBad guibg=#ff2929 guifg=#ffffff" ctermbg=224
+" disable markdown auto-preview. Gets annoying
+" let g:instant_markdown_autostart = 0
+
+" Limit line-length to 80 columns by highlighting col 81 onward
+if exists("+colorcolumn")
+  set colorcolumn=81
+endif
+
+" Highlight current line
+set cursorline
+" Don’t keep results highlighted after searching...
+set nohlsearch
+" ...just highlight as we type
+set incsearch
+" Ignore case when searching...
+set ignorecase
+" ...except if we input a capital letter
+set smartcase
+
+"}}}
+
+" vim-airline ---------------------------------------------------------------{{{
+set hidden
+let g:airline_powerline_fonts = 1
+let g:airline_theme='oceanicnext'
+"cnoreabbrev <expr> x getcmdtype() == ":" && getcmdline() == 'x' ? 'Sayonara' : 'x'
+"nmap <leader>t :term<cr>
+"nmap <leader>, :bnext<CR>
+"nmap <leader>. :bprevious<CR>
+"let g:airline#extensions#tabline#buffer_idx_mode = 1
+"nmap <leader>1 <Plug>AirlineSelectTab1
+"nmap <leader>2 <Plug>AirlineSelectTab2
+"nmap <leader>3 <Plug>AirlineSelectTab3
+"nmap <leader>4 <Plug>AirlineSelectTab4
+"nmap <leader>5 <Plug>AirlineSelectTab5
+"nmap <leader>6 <Plug>AirlineSelectTab6
+"nmap <leader>7 <Plug>AirlineSelectTab7
+"nmap <leader>8 <Plug>AirlineSelectTab8
+"nmap <leader>9 <Plug>AirlineSelectTab9
+"}}}
+
+" NERDTree ------------------------------------------------------------------{{{
+nnoremap <C-g> :NERDTreeToggle<CR>
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let NERDTreeShowHidden=1
+let g:NERDTreeWinSize=45
+let g:NERDTreeAutoDeleteBuffer=1
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#141e23')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#141e23')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#141e23')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#141e23')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#141e23')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#141e23')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#141e23')
+call NERDTreeHighlightFile('ts', 'Blue', 'none', '#6699cc', '#141e23')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#141e23')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#141e23')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#141e23')
+
+"}}}
+
+" Key Mappings ----------------------------------------------------------{{{
+
+" set map leader key
+let mapleader = ","
+
+" jj to throw you into normal mode from insert mode
+inoremap jj <esc>
+
+"nnoremap <silent> <C-p> :FZF<CR>
+
+" Make it so that a curly brace automatically inserts an indented line
+" inoremap {<CR> {<CR>}<C-o>O
+
+" Pressing ctrl+enter between braces will create newline + indent
+" imap <C-Return> <CR><CR><C-o>k<Tab>
+
+" Change Thesaurus key mapping
+" let g:online_thesaurus_map_keys = 0
+" nnoremap <Leader>t :OnlineThesaurusCurrentWord<CR>
+
+" Change pwd to current file's directory
+" nnoremap <Leader>cd :cd %:p:h<CR>:pwd<CR>
+
+" Toggle background color
+map <expr> <Leader>bg ToggleBackgroundColor()
+
+func! ToggleBackgroundColor()
+  if (&l:background == "light")
+    set background=dark
+  else
+    set background=light
+  endif
+endfunc
