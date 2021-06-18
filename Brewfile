@@ -16,6 +16,7 @@ brew 'zsh'
 brew 'zsh-completions'
 brew 'hub'
 brew 'yarn'
+brew 'htop'
 
 cask '1password'
 cask 'google-chrome'
