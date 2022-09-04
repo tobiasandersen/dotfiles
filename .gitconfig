@@ -1,0 +1,41 @@
+[hub]
+        protocol = https
+[user]
+        name = Tobias Andersen
+        email = j.tobiasandersen@gmail.com
+[credential]
+        helper = osxkeychain
+[alias]
+        co = checkout
+        hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+        lg = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+        br = branch -vvv --sort=-committerdate
+        fixup = "!f() { TARGET=$(git rev-parse "$1"); shift; git commit --fixup=$TARGET $@ && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+        pra = pull --rebase --autostash
+        ff = pull --ff-only
+        s = status
+        cp = cherry-pick
+        cm = commit -m
+        wip = commit -m "WIP" --no-verify
+[color]
+        diff = auto
+        status = auto
+        branch = auto
+        ui = true
+[core]
+        excludesfile = ~/.gitignore
+[apply]
+        whitespace = nowarn
+[mergetool]
+        keepBackup = false
+[difftool]
+        prompt = false
+[help]
+        autocorrect = 1
+[push]
+        # See `git help config` (search for push.default)
+        # for more information on different options of the below setting.
+        #
+        # Setting to git 2.0 default to suppress warning message
+        default = simple
+
