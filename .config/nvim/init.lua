@@ -9,4 +9,11 @@ else
   require "user.treesitter"
   require "user.mason"
   require "user.nvim-tree"
+  require "user.null-ls"
+  require "user.autopairs"
+  -- require "user.toggleterm"
+  require "user.lualine"
+  require "user.comments"
+  require "user.cmp"
+  require "user.lsp"
 end

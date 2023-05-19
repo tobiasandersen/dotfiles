@@ -22,7 +22,6 @@ vim.cmd [[
     autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]]
-
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
@@ -45,20 +44,62 @@ return packer.startup(function(use)
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "tpope/vim-surround"
+  use "tpope/vim-repeat"
+  use "ThePrimeagen/harpoon"
+  use "christoomey/vim-tmux-navigator"
+  use "tpope/vim-fugitive"
 
   -- LSP
   use "neovim/nvim-lspconfig"
   use "williamboman/mason.nvim"
   use "williamboman/mason-lspconfig.nvim"
+  use "jose-elias-alvarez/null-ls.nvim"
+
+  -- Completion
+  use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/nvim-cmp"
+  use "hrsh7th/cmp-path"
+  use "hrsh7th/cmp-cmdline"
+  use {'tzachar/fuzzy.nvim', requires = {'nvim-telescope/telescope-fzf-native.nvim'}}
+  use {"tzachar/cmp-fuzzy-path", requires = {"hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim"}}
+
+
+  -- Treesitter
+  use("nvim-treesitter/nvim-treesitter", {
+    run = ":TSUpdate"
+  })
+  use "RRethy/nvim-treesitter-endwise"
+  use "windwp/nvim-ts-autotag"
+  use "windwp/nvim-autopairs"
+  use {
+      'numToStr/Comment.nvim',
+      config = function()
+          require('Comment').setup()
+      end
+  }
+  use "JoosepAlviste/nvim-ts-context-commentstring"
+
+  -- Telescope
+  use "nvim-telescope/telescope.nvim"
+  use "BurntSushi/ripgrep" -- required for live_grep and grep_string and is the first priority for find_files.
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' } -- native telescope sorter to improve sorting performance
+  use "nvim-telescope/telescope-file-browser.nvim"
+  use "nvim-telescope/telescope-live-grep-args.nvim"
 
   -- Color Schemes
   use "folke/tokyonight.nvim"
   use "projekt0n/github-nvim-theme"
+  use { "catppuccin/nvim", as = "catppuccin" }
 
-  use("nvim-treesitter/nvim-treesitter", {
-    run = ":TSUpdate"
-  })
+  -- Statusline
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
 
+  -- Terminal
+  use "akinsho/toggleterm.nvim"
+  
   -- File Explorer
   use {
     'kyazdani42/nvim-tree.lua',
@@ -66,15 +107,6 @@ return packer.startup(function(use)
       'kyazdani42/nvim-web-devicons',
     }
   }
-
-  -- Telescope
-  use "nvim-telescope/telescope.nvim"
-  use "BurntSushi/ripgrep" -- required for live_grep and grep_string and is the first priority for find_files.
-  use "nvim-telescope/telescope-fzf-native.nvim" -- native telescope sorter to improve sorting performance
-  -- use "nvim-telescope/telescope-file-browser.nvim"
-  -- use "nvim-telescope/telescope-project.nvim"
-
-  use "ThePrimeagen/harpoon"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -1,16 +1,20 @@
+# zmodload zsh/zprof
+
+# Checking for updates slows down startup 
+export DISABLE_AUTO_UPDATE="true"
+
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=/Users/tobiasandersen/.local/bin:$PATH
+export PATH=/usr/local/opt/curl/bin:$PATH
 
-source ~/.zsh/prompt.zsh
-source ~/.zsh/config.zsh
+source ~/.zsh/prompt.zsh 
 source ~/.zsh/alias.zsh
-
-# Completion
-autoload -U compinit
-compinit
-
+source ~/.zsh/config.zsh
 source ~/.zsh/completion.zsh
+
+# Zoxide 
+eval "$(zoxide init zsh)"
 
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
@@ -24,10 +28,6 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/tobiasandersen/.oh-my-zsh"
 
-# Path to nvm
-export NVM_DIR=~/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
 # Use pyenv for python
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
@@ -36,14 +36,13 @@ fi
 # ZSH Theme
 ZSH_THEME="robbyrussell"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+# Loading nvm slows down startup, so we tell zsh to load it lazily.
+export NVM_LAZY=1
+
+# Plugins
 plugins=(
+  nvm
   git
-  github
   zsh-autosuggestions
 )
 
@@ -64,6 +63,14 @@ else
   export EDITOR='nvim'
 fi
 
-# Add ccache to path
+# Add stuff to path
 path=('/usr/local/opt/ccache/libexec' $path)
+path=('/usr/local/bin/fd' $path)
 
+export PATH
+
+# Load completion
+# autoload -Uz compinit && compinit 
+
+
+# zprof

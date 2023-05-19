@@ -1,4 +1,47 @@
+local fb_actions = require "telescope._extensions.file_browser.actions"
+local lga_actions = require("telescope-live-grep-args.actions")
+
+local ts_select_dir_for_grep = function(prompt_bufnr)
+  local action_state = require("telescope.actions.state")
+  local fb = require("telescope").extensions.file_browser
+  local live_grep = require("telescope.builtin").live_grep
+  local current_line = action_state.get_current_line()
+
+  fb.file_browser({
+    files = false,
+    depth = false,
+    attach_mappings = function(prompt_bufnr)
+      require("telescope.actions").select_default:replace(function()
+        local entry_path = action_state.get_selected_entry().Path
+        local dir = entry_path:is_dir() and entry_path or entry_path:parent()
+        local relative = dir:make_relative(vim.fn.getcwd())
+        local absolute = dir:absolute()
+
+        live_grep({
+          results_title = relative .. "/",
+          cwd = absolute,
+          default_text = current_line,
+        })
+      end)
+
+      return true
+    end,
+  })
+end
+
 require('telescope').setup {
+  pickers = {
+    live_grep = {
+      mappings = {
+        i = {
+          ["<C-f>"] = ts_select_dir_for_grep,
+        },
+        n = {
+          ["<C-f>"] = ts_select_dir_for_grep,
+        },
+      },
+    },
+  },
   extensions = {
     project = {
       base_dirs = {
@@ -6,9 +49,29 @@ require('telescope').setup {
       },
       hidden_files = true,
       theme = "dropdown"
+    },
+    file_browser = {
+      mappings = {
+        i = {
+          ["<C-r>"] = fb_actions.rename
+        },
+      }
+    },
+    live_grep_args = {
+      auto_quoting = true,
+      mappings = {
+        i = {
+          ["<C-k>"] = lga_actions.quote_prompt(),
+          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+        },
+      },
     }
   }
 }
+
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require('telescope').load_extension('fzf')
 
 -- Reloading Neovim Config With Telescope
 -- https://ustrajunior.com/posts/reloading-neovim-config-with-telescope/
@@ -42,7 +105,7 @@ function M.reload()
     return module_name
   end
 
-  local prompt_title = "~ neovim modules ~"
+  local prompt_title = "~ NVIM config ~"
 
   -- sets the path to the lua folder
   local path = "~/.config/nvim/lua"
@@ -73,4 +136,3 @@ function M.reload()
 end
 
 return M;
-

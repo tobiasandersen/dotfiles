@@ -1,7 +1,4 @@
-local status, ts = pcall(require, "nvim-treesitter.configs")
-if (not status) then return end
-
-ts.setup {
+require("nvim-treesitter.configs").setup {
   highlight = {
     enable = true,
     disable = {},
@@ -20,6 +17,12 @@ ts.setup {
     "lua"
   },
   autotag = {
+    enable = true,
+  },
+  autopairs = {
+    enable = true
+  },
+  endwise = {
     enable = true,
   },
 }
