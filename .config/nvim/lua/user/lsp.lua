@@ -1,11 +1,9 @@
 local Remap = require("user.keymap")
 local nnoremap = Remap.nnoremap
 local inoremap = Remap.inoremap
-
-local function definition()
-  vim.lsp.buf.definition()
-  -- vim.cmd("autocmd FileType qf ++once call nvim_input(':cclose<cr>')")
-end
+local lsp = vim.lsp
+local fn = vim.fn
+local diagnostic = vim.diagnostic
 
 local function config(_config)
 	return vim.tbl_deep_extend("force", {
@@ -13,18 +11,15 @@ local function config(_config)
       -- Disable document formatting since we're using null_ls for this.
       client.server_capabilities.document_formatting = false
 
-      -- Disable diagnostics
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
-
       -- Set up key bindings
-			nnoremap("gd", definition)
-			nnoremap("K", function() vim.lsp.buf.hover() end)
-			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
-			nnoremap("[d", function() vim.diagnostic.goto_next() end)
-			nnoremap("]d", function() vim.diagnostic.goto_prev() end)
-			nnoremap("<leader>vca", function() vim.lsp.buf.code_action() end)
-			nnoremap("<leader>vco", function() vim.lsp.buf.code_action({
+			nnoremap("gd", function() lsp.buf.definition() end)
+			nnoremap("K", function() lsp.buf.hover() end)
+			nnoremap("<leader>vws", function() lsp.buf.workspace_symbol() end)
+			nnoremap("<leader>vd", function() diagnostic.open_float() end)
+			nnoremap("[d", function() diagnostic.goto_next() end)
+			nnoremap("]d", function() diagnostic.goto_prev() end)
+			nnoremap("<leader>vca", function() lsp.buf.code_action() end)
+			nnoremap("<leader>vco", function() lsp.buf.code_action({
                 filter = function(code_action)
                     if not code_action or not code_action.data then
                         return false
@@ -35,9 +30,9 @@ local function config(_config)
                 end,
                 apply = true
             }) end)
-			nnoremap("<leader>vrr", function() vim.lsp.buf.references() end)
-			nnoremap("<leader>vrn", function() vim.lsp.buf.rename() end)
-			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+			nnoremap("<leader>vrr", function() lsp.buf.references() end)
+			nnoremap("<leader>vrn", function() lsp.buf.rename() end)
+			inoremap("<C-h>", function() lsp.buf.signature_help() end)
 		end,
 	}, _config or {})
 end
@@ -45,3 +40,34 @@ end
 require("lspconfig").tsserver.setup(config())
 
 require("lspconfig").cssls.setup(config())
+
+require("lspconfig").eslint.setup({
+  enable = true,
+  lintTask = {
+    enable = true,
+  },
+  root_dir = require("lspconfig").util.root_pattern('.eslintrc.json', '.eslintrc.js', 'package.json', 'tsconfig.json', '.git')
+})
+
+-- Change diagnostic signs.
+fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
+fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
+fn.sign_define("DiagnosticSignInformation", { text = "", texthl = "DiagnosticSignInfo" })
+fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+
+-- Global config for diagnostic.
+diagnostic.config({
+  underline = {
+    severity = { min = vim.diagnostic.severity.ERROR }
+  },
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.WARN },
+    prefix = '',
+  },
+  sign = {
+    severity = { min = vim.diagnostic.severity.WARN }
+  },
+  severity_sort = {
+    severity = { min = vim.diagnostic.severity.WARN }
+  },
+})

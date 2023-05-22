@@ -63,7 +63,6 @@ return packer.startup(function(use)
   use {'tzachar/fuzzy.nvim', requires = {'nvim-telescope/telescope-fzf-native.nvim'}}
   use {"tzachar/cmp-fuzzy-path", requires = {"hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim"}}
 
-
   -- Treesitter
   use("nvim-treesitter/nvim-treesitter", {
     run = ":TSUpdate"
@@ -96,9 +95,6 @@ return packer.startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
-
-  -- Terminal
-  use "akinsho/toggleterm.nvim"
   
   -- File Explorer
   use {
