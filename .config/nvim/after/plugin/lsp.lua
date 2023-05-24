@@ -1,6 +1,3 @@
-local Remap = require("user.keymap")
-local nnoremap = Remap.nnoremap
-local inoremap = Remap.inoremap
 local lsp = vim.lsp
 local fn = vim.fn
 local diagnostic = vim.diagnostic
@@ -12,14 +9,14 @@ local function config(_config)
       client.server_capabilities.document_formatting = false
 
       -- Set up key bindings
-			nnoremap("gd", function() lsp.buf.definition() end)
-			nnoremap("K", function() lsp.buf.hover() end)
-			nnoremap("<leader>vws", function() lsp.buf.workspace_symbol() end)
-			nnoremap("<leader>vd", function() diagnostic.open_float() end)
-			nnoremap("[d", function() diagnostic.goto_next() end)
-			nnoremap("]d", function() diagnostic.goto_prev() end)
-			nnoremap("<leader>vca", function() lsp.buf.code_action() end)
-			nnoremap("<leader>vco", function() lsp.buf.code_action({
+			vim.keymap.set("n", "gd", function() lsp.buf.definition() end)
+			vim.keymap.set("n", "K", function() lsp.buf.hover() end)
+			vim.keymap.set("n", "<leader>vws", function() lsp.buf.workspace_symbol() end)
+			vim.keymap.set("n", "<leader>vd", function() diagnostic.open_float() end)
+			vim.keymap.set("n", "[d", function() diagnostic.goto_next() end)
+			vim.keymap.set("n", "]d", function() diagnostic.goto_prev() end)
+			vim.keymap.set("n", "<leader>vca", function() lsp.buf.code_action() end)
+			vim.keymap.set("n", "<leader>vco", function() lsp.buf.code_action({
                 filter = function(code_action)
                     if not code_action or not code_action.data then
                         return false
@@ -30,9 +27,9 @@ local function config(_config)
                 end,
                 apply = true
             }) end)
-			nnoremap("<leader>vrr", function() lsp.buf.references() end)
-			nnoremap("<leader>vrn", function() lsp.buf.rename() end)
-			inoremap("<C-h>", function() lsp.buf.signature_help() end)
+			vim.keymap.set("n", "<leader>vrr", function() lsp.buf.references() end)
+			vim.keymap.set("n", "<leader>vrn", function() lsp.buf.rename() end)
+			vim.keymap.set("i", "<C-h>", function() lsp.buf.signature_help() end)
 		end,
 	}, _config or {})
 end
@@ -52,22 +49,26 @@ require("lspconfig").eslint.setup({
 -- Change diagnostic signs.
 fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
 fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-fn.sign_define("DiagnosticSignInformation", { text = "", texthl = "DiagnosticSignInfo" })
-fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+fn.sign_define("DiagnosticSignInformation", { text = "󰙎", texthl = "DiagnosticSignInfo" })
+fn.sign_define("DiagnosticSignHint", { text = "󰌶", texthl = "DiagnosticSignHint" })
 
 -- Global config for diagnostic.
 diagnostic.config({
   underline = {
     severity = { min = vim.diagnostic.severity.ERROR }
   },
-  virtual_text = {
-    severity = { min = vim.diagnostic.severity.WARN },
-    prefix = '',
-  },
-  sign = {
-    severity = { min = vim.diagnostic.severity.WARN }
-  },
-  severity_sort = {
-    severity = { min = vim.diagnostic.severity.WARN }
-  },
+  virtual_text = false,
+  sign = true,
+  -- {
+  --   severity = { min = vim.diagnostic.severity.WARN }
+  -- },
+  severity_sort = true
+  --   severity = { min = vim.diagnostic.severity.WARN }
+  -- },
 })
+
+-- Open diagnostic float on cursor hold.
+-- vim.api.nvim_create_autocmd(
+--   "CursorHold",
+--   { command = "lua vim.diagnostic.open_float()" }
+-- )

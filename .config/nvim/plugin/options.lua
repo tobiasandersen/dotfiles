@@ -1,0 +1,24 @@
+local opt = vim.opt
+
+opt.cmdheight = 1 -- height of command bar
+opt.conceallevel = 0 -- so that `` is visible in markdown files
+opt.hlsearch = true -- highlight all matches on previous search pattern
+opt.mouse = "a" -- enable mouse
+opt.showmode = false -- we don't need to see things like -- INSERT -- anymore
+opt.ignorecase = true -- ignore case when searching...
+opt.smartcase = true -- ...unless there is a capital letter in the query
+opt.smartindent = true -- smart autoidenting when starting a new line
+opt.splitbelow = true -- force all horizontal splits to go below current window
+opt.splitright = true -- force all vertical splits to go to the right of current window
+opt.swapfile = false -- they are a bit annoying and people seem to disable this
+opt.undofile = true -- enable persistent undo
+opt.updatetime = 100 -- make updates happen faster (also affects CursorHold, 4000ms default)
+opt.expandtab = true -- convert tabs to spaces
+opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
+opt.tabstop = 2 -- insert 2 spaces for a tab
+opt.cursorline = true -- highlight the current line
+opt.relativenumber = true -- show relative line numbers
+opt.number = true -- but show the actual number for the line we're on
+opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
+opt.wrap = false -- display lines as one long line
+opt.scrolloff = 8 -- make it so there are always lines below my cursor

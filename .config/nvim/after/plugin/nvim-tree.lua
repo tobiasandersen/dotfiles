@@ -1,3 +1,5 @@
+local api = require('nvim-tree.api')
+
 require("nvim-tree").setup({
   on_attach = on_attach,
   view = {
@@ -18,13 +20,13 @@ require("nvim-tree").setup({
   }
 })
 
+vim.keymap.set("n", "<leader>t", ":NvimTreeFindFile<CR>")
+
 local function on_attach(bufnr)
-  local api = require('nvim-tree.api')
 
   local function opts(desc)
     return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
-
 
   -- Default mappings. Feel free to modify or remove as you wish.
   --
@@ -33,7 +35,7 @@ local function on_attach(bufnr)
   vim.keymap.set('n', '<C-e>', api.node.open.replace_tree_buffer,     opts('Open: In Place'))
   vim.keymap.set('n', '<C-k>', api.node.show_info_popup,              opts('Info'))
   vim.keymap.set('n', '<C-r>', api.fs.rename_sub,                     opts('Rename: Omit Filename'))
-  -- vim.keymap.set('n', '<C-t>', api.node.open.tab,                     opts('Open: New Tab'))
+  -- vim.keymap.del('n', '<C-t>', api.node.open.tab,                     opts('Open: New Tab'))
   vim.keymap.set('n', '<C-v>', api.node.open.vertical,                opts('Open: Vertical Split'))
   vim.keymap.set('n', '<C-x>', api.node.open.horizontal,              opts('Open: Horizontal Split'))
   vim.keymap.set('n', '<BS>',  api.node.navigate.parent_close,        opts('Close Directory'))

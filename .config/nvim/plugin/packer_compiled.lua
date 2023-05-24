@@ -85,6 +85,11 @@ _G.packer_plugins = {
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/catppuccin",
     url = "https://github.com/catppuccin/nvim"
   },
+  ["cmp-buffer"] = {
+    loaded = true,
+    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+    url = "https://github.com/hrsh7th/cmp-buffer"
+  },
   ["cmp-cmdline"] = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
@@ -105,6 +110,11 @@ _G.packer_plugins = {
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
+  ["express_line.nvim"] = {
+    loaded = true,
+    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/express_line.nvim",
+    url = "https://github.com/tjdevries/express_line.nvim"
+  },
   ["fuzzy.nvim"] = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/fuzzy.nvim",
@@ -119,11 +129,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/harpoon",
     url = "https://github.com/ThePrimeagen/harpoon"
-  },
-  ["lualine.nvim"] = {
-    loaded = true,
-    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/lualine.nvim",
-    url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
@@ -181,9 +186,8 @@ _G.packer_plugins = {
     url = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
   },
   ["nvim-web-devicons"] = {
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/opt/nvim-web-devicons",
+    loaded = true,
+    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
@@ -195,11 +199,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
-  },
-  ["popup.nvim"] = {
-    loaded = true,
-    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/popup.nvim",
-    url = "https://github.com/nvim-lua/popup.nvim"
   },
   ripgrep = {
     loaded = true,
@@ -226,10 +225,10 @@ _G.packer_plugins = {
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["tokyonight.nvim"] = {
+  undotree = {
     loaded = true,
-    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
-    url = "https://github.com/folke/tokyonight.nvim"
+    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
   },
   ["vim-fugitive"] = {
     loaded = true,
@@ -245,11 +244,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/vim-surround",
     url = "https://github.com/tpope/vim-surround"
-  },
-  ["vim-tmux-navigator"] = {
-    loaded = true,
-    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",
-    url = "https://github.com/christoomey/vim-tmux-navigator"
   }
 }
 

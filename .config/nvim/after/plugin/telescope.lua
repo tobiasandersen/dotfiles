@@ -1,3 +1,16 @@
+local builtin = require('telescope.builtin')
+
+vim.keymap.set("n", "<leader>gf", builtin.git_files)
+vim.keymap.set("n", "<leader>ff", builtin.find_files)
+vim.keymap.set("n", "<C-p>", builtin.find_files)
+vim.keymap.set("n", "<leader>fb", builtin.buffers)
+vim.keymap.set("n", "<leader>fh", builtin.resume)
+vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+vim.keymap.set("n", "<leader>fs", ":lua require 'telescope'.extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<CR>")
+vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<cr>")
+vim.keymap.set("n", "<leader>rr", ":Telescope lsp_references<cr>")
+vim.keymap.set("n", "<leader>df", ":Telescope diagnostics<cr>")
+
 local fb_actions = require "telescope._extensions.file_browser.actions"
 local lga_actions = require("telescope-live-grep-args.actions")
 
@@ -89,9 +102,8 @@ if pcall(require, "plenary") then
   end
 end
 
-local M = {}
-
-function M.reload()
+-- Reload lua when config changes
+local function reload()
   -- Telescope will give us something like user/colors.lua,
   -- so this function convert the selected entry to
   -- the module name: user.colors
@@ -135,4 +147,4 @@ function M.reload()
   require('telescope.builtin').find_files(opts)
 end
 
-return M;
+vim.keymap.set("n", "<Leader>qr", reload)
