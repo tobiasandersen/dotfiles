@@ -98,7 +98,7 @@ _G.packer_plugins = {
   ["cmp-fuzzy-path"] = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/cmp-fuzzy-path",
-    url = "https://github.com/tzachar/cmp-fuzzy-path"
+    url = "/Users/tobiasandersen/dev/oss/cmp-fuzzy-path"
   },
   ["cmp-nvim-lsp"] = {
     loaded = true,
@@ -119,11 +119,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/fuzzy.nvim",
     url = "https://github.com/tzachar/fuzzy.nvim"
-  },
-  ["github-nvim-theme"] = {
-    loaded = true,
-    path = "/Users/tobiasandersen/.local/share/nvim/site/pack/packer/start/github-nvim-theme",
-    url = "https://github.com/projekt0n/github-nvim-theme"
   },
   harpoon = {
     loaded = true,

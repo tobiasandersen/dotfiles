@@ -14,11 +14,19 @@ local generator = function()
       function(window, buffer)
         local branch = extensions.git_branch(window, buffer)
         if branch then
-          return "  " .. branch
+          return "   " .. branch
         end
       end
     ),
-    sections.split,
+    "  ",
+    subscribe.buf_autocmd(
+      "el_file_icon",
+      "BufRead",
+      function(_, buffer)
+        return extensions.file_icon(_, buffer)
+      end
+    ),
+    " ",
     builtin.file_relative,
     sections.collapse_builtin {
       " ",
@@ -41,14 +49,6 @@ local generator = function()
       builtin.readonly_list,
       "]",
     },
-    " ",
-    subscribe.buf_autocmd(
-      "el_file_icon",
-      "BufRead",
-      function(_, buffer)
-        return extensions.file_icon(_, buffer)
-      end
-    ),
   }
 end
 

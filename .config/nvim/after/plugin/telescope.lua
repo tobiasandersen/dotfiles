@@ -3,13 +3,15 @@ local builtin = require('telescope.builtin')
 vim.keymap.set("n", "<leader>gf", builtin.git_files)
 vim.keymap.set("n", "<leader>ff", builtin.find_files)
 vim.keymap.set("n", "<C-p>", builtin.find_files)
-vim.keymap.set("n", "<leader>fb", builtin.buffers)
+vim.keymap.set("n", "<leader>b", builtin.buffers)
 vim.keymap.set("n", "<leader>fh", builtin.resume)
+vim.keymap.set("n", "<leader>lg", builtin.live_grep)
 vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
 vim.keymap.set("n", "<leader>fs", ":lua require 'telescope'.extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<CR>")
 vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<cr>")
 vim.keymap.set("n", "<leader>rr", ":Telescope lsp_references<cr>")
 vim.keymap.set("n", "<leader>df", ":Telescope diagnostics<cr>")
+vim.keymap.set("n", "<leader>q", require('telescope.builtin').quickfix)
 
 local fb_actions = require "telescope._extensions.file_browser.actions"
 local lga_actions = require("telescope-live-grep-args.actions")
@@ -54,6 +56,13 @@ require('telescope').setup {
         },
       },
     },
+    buffers = {
+      mappings = {
+        n = {
+          ['<C-d>'] = require('telescope.actions').delete_buffer
+        }
+      }
+    }
   },
   extensions = {
     project = {
@@ -78,7 +87,7 @@ require('telescope').setup {
           ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
         },
       },
-    }
+    },
   }
 }
 

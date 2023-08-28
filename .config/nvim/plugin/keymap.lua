@@ -20,10 +20,6 @@ vim.keymap.set("n", "<leader>dd", ":lua vim.diagnostic.open_float()<cr>")
 vim.keymap.set("n", "<leader>dn", ":lua vim.diagnostic.goto_next()<cr>")
 vim.keymap.set("n", "<leader>dp", ":lua vim.diagnostic.goto_prev()<cr>")
 
--- Navigate buffers
-vim.keymap.set("n", "<S-l>", ":bnext<CR>")
-vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
-
 -- Better window navigation
 -- vim.keymap.set("n", "<C-h>", "<C-w>h")
 -- vim.keymap.set("n", "<C-j>", "<C-w>j")

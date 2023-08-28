@@ -8,3 +8,8 @@ vim.g.maplocalleader = " "
 
 require "user.packer"
 
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
+
