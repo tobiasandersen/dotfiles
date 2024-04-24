@@ -6,7 +6,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$({ find ~/dev -mindepth 2 -maxdepth 2 -type d & find ~/.config/nvim -type d -maxdepth 0 -mindepth 0; } | fzf)
+    selected=$({ find ~/dev -mindepth 1 -maxdepth 1 -type d & find ~/.config/nvim -type d -maxdepth 0 -mindepth 0; } | fzf)
 fi
 
 if [[ -z $selected ]]; then

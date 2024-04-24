@@ -3,10 +3,17 @@
 # Checking for updates slows down startup 
 export DISABLE_AUTO_UPDATE="true"
 
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# If you come from bash you might have to change your $PATH. export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=/Users/tobiasandersen/.local/bin:$PATH
 export PATH=/usr/local/opt/curl/bin:$PATH
+export PATH=/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH
+export PATH=~/Desktop/keylocker:$PATH
+
+# curl-openssl
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/curl/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig"
 
 source ~/.zsh/prompt.zsh 
 source ~/.zsh/alias.zsh
@@ -64,7 +71,6 @@ else
 fi
 
 # Add stuff to path
-path=('/usr/local/opt/ccache/libexec' $path)
 path=('/usr/local/bin/fd' $path)
 
 export PATH
@@ -73,4 +79,4 @@ export PATH
 # autoload -Uz compinit && compinit 
 
 
-# zprof
+# zprofa
