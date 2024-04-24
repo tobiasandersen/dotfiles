@@ -9,6 +9,8 @@ require("nvim-treesitter.configs").setup {
   },
   ensure_installed = {
     "tsx",
+    "javascript",
+    "typescript",
     "toml",
     "json",
     "yaml",
@@ -17,7 +19,7 @@ require("nvim-treesitter.configs").setup {
     "lua"
   },
   autotag = {
-    enable = true,
+    enable = false,
   },
   autopairs = {
     enable = true
@@ -25,6 +27,10 @@ require("nvim-treesitter.configs").setup {
   endwise = {
     enable = true,
   },
+}
+
+require('treesitter-context').setup {
+  enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
 }
 
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()

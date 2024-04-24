@@ -9,7 +9,11 @@ local function config(_config)
       client.server_capabilities.document_formatting = false
 
       -- Set up key bindings
+      vim.keymap.set("n", "gD", function() lsp.buf.declaration() end)
 			vim.keymap.set("n", "gd", function() lsp.buf.definition() end)
+			vim.keymap.set("n", "gi", function() lsp.buf.implementation() end)
+      vim.keymap.set("n", "<leader>d", function() lsp.buf.type_definition() end)
+      vim.keymap.set("n", "<C-k>", function() lsp.buf.signature_help() end)
 			vim.keymap.set("n", "K", function() lsp.buf.hover() end)
 			vim.keymap.set("n", "<leader>vws", function() lsp.buf.workspace_symbol() end)
 			vim.keymap.set("n", "<leader>vd", function() diagnostic.open_float() end)

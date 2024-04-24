@@ -39,7 +39,8 @@ return require('packer').startup(function(use)
   use "hrsh7th/cmp-buffer"
   use "hrsh7th/cmp-cmdline"
   use {'tzachar/fuzzy.nvim', requires = {'nvim-telescope/telescope-fzf-native.nvim'}}
-  use "~/dev/oss/cmp-fuzzy-path"
+  use "github/copilot.vim"
+  -- use "~/dev/oss/cmp-fuzzy-path"
   -- use {"tzachar/cmp-fuzzy-path", requires = {"hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim"}}
 
   -- Treesitter
@@ -54,9 +55,10 @@ return require('packer').startup(function(use)
     end
   }
   use "JoosepAlviste/nvim-ts-context-commentstring"
+  use "nvim-treesitter/nvim-treesitter-context"
 
   -- Color Schemes
-  -- use "folke/tokyonight.nvim"
+  use "folke/tokyonight.nvim"
   use { "catppuccin/nvim", as = "catppuccin" }
 
   -- Statusline
